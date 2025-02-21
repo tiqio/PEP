@@ -1,0 +1,13 @@
+直接编译，-I只影响头文件的搜索路径，不会影响源文件的搜索路径
+gcc -I/home/dd/cpp/demo01/tools -o demo_direct demo01.cpp /home/dd/cpp/demo01/tools/public.cpp
+静态编译，-I指定头文件目录，-l指定库名，-L指定库的路径
+g++ -I/home/dd/cpp/demo01/tools -o demo_static demo01.cpp /home/dd/cpp/demo01/tools/libpublic.a
+g++ -I/home/dd/cpp/demo01/tools -L/home/dd/cpp/demo01/tools -o demo_static2 demo01.cpp -lpublic
+动态编译
+g++ -I/home/dd/cpp/demo01/tools -o demo_dynamic demo01.cpp /home/dd/cpp/demo01/tools/libpublic.so（这种情况下不哟了那个指定LD_LIBRARY_PATH）
+g++ -I/home/dd/cpp/demo01/tools -L/home/dd/cpp/demo01/tools -o demo_dynamic2 demo01.cpp -lpublic
+
+export LD_LIBRARY_PATH=/home/dd/cpp/demo01/tools:$LD_LIBRARY_PATH
+
+多文件动态编译
+g++ -I/home/dd/cpp/demo01/tools -L/home/dd/cpp/demo01/tools -o demo_multi_dynamic demo01.cpp -lpublic -lmyapi

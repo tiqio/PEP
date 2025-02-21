@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "fstream": "cpp",
+        "tproxy_example_conn.h": "c",
+        "ioctl.h": "c"
+    }
+}
