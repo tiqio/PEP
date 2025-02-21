@@ -1,6 +1,8 @@
 双向透明加速步骤：
 
 1.修改get_org_dstaddr使得可以获取orig_src源地址
+
+```
 //Store the original destination address in remote_addr
 //Return 0 on success, <0 on failure
 static int get_org_dstaddr(int sockfd, struct sockaddr_storage *orig_dst, struct sockaddr_storage *orig_src){
@@ -52,8 +54,11 @@ static int get_org_dstaddr(int sockfd, struct sockaddr_storage *orig_dst, struct
         return 0;
     }
 }
+```
 
 2.修改add_tcp_connection使得orig_src被传入connect_remote函数
+
+```
 struct sockaddr_storage orig_dst, orig_src;
 if(get_org_dstaddr(local_fd, &orig_dst, &orig_src)){
     fprintf(stderr, "Could not get local address\n");
@@ -68,9 +73,11 @@ if((remote_fd = connect_remote(&orig_dst, &orig_src)) == 0){
     close(local_fd);
     return NULL;
 }
+```
 
 3.修改connect_remote函数使得可以使用透明模式和服务端建立连接，将下面这一段放到connect前
 
+```
 // char orig_src_str[INET6_ADDRSTRLEN];
 // inet_ntop(AF_INET, 
 //    &(((struct sockaddr_in*) orig_src)->sin_addr),
@@ -96,3 +103,4 @@ if(bind(remote_fd, (struct sockaddr*) &clientaddr, sizeof(clientaddr)) < 0){
     close(remote_fd);
     return 0;
 }
+```
